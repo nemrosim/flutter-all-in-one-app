@@ -119,22 +119,28 @@ class _AuthPageState extends State<AuthPage> {
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 16.0),
-                      child: RaisedButton(
-                        color: Colors.blueGrey,
-                        textColor: Colors.white,
-                        elevation: 5,
-                        onPressed: () async {
-                          await _loginHandler();
+                      child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: ButtonTheme(
+                          height: 60.0,
+                          child: RaisedButton(
+                            color: Colors.blueGrey,
+                            textColor: Colors.white,
+                            elevation: 5,
+                            onPressed: () async {
+                              await _loginHandler();
 
-                          // Validate will return true if the form is valid, or false if
-                          // the form is invalid.
-                          if (_formKey.currentState.validate()) {
-                            // Process data.
-                          }
-                        },
-                        child: !isLoading
-                            ? Text('Login')
-                            : CircularProgressIndicator(),
+                              // Validate will return true if the form is valid, or false if
+                              // the form is invalid.
+                              if (_formKey.currentState.validate()) {
+                                // Process data.
+                              }
+                            },
+                            child: !isLoading
+                                ? Text('Login')
+                                : CircularProgressIndicator(),
+                          ),
+                        ),
                       ),
                     ),
                   ],
