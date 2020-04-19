@@ -1,9 +1,19 @@
 import 'package:authapp/widgets/bottom_navigation_bar_items.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter/foundation.dart';
+import 'dart:io';
 import 'routes/auth_route.dart';
 
-void main() => runApp(MyApp());
+Future main() async {
+  await DotEnv().load('.env.development');
+  FlutterError.onError = (FlutterErrorDetails details) {
+    FlutterError.dumpErrorToConsole(details);
+    if (kReleaseMode) exit(1);
+  };
+
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override

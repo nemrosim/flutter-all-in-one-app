@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+import 'package:http/http.dart' as http;
 
 class AuthPage extends StatefulWidget {
   @override
@@ -8,6 +13,61 @@ class AuthPage extends StatefulWidget {
 
 class _AuthPageState extends State<AuthPage> {
   final _formKey = GlobalKey<FormState>();
+
+  bool isLoading = false;
+  String _baseUrl = DotEnv().env['BASE_URL'];
+
+  Future<void> _neverSatisfied() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Rewind and remember'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('You will never be satisfied.'),
+                Text('You\’re like me. I’m never satisfied.'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Regret'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  _loginHandler() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    final http.Response response = await http.post('$_baseUrl/login', body: {
+      'email': 'hello',
+    });
+
+    setState(() {
+      isLoading = false;
+    });
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else if (response.statusCode == 401) {
+      await _neverSatisfied();
+      print(response.statusCode);
+      print(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to load album');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,14 +123,18 @@ class _AuthPageState extends State<AuthPage> {
                         color: Colors.blueGrey,
                         textColor: Colors.white,
                         elevation: 5,
-                        onPressed: () {
+                        onPressed: () async {
+                          await _loginHandler();
+
                           // Validate will return true if the form is valid, or false if
                           // the form is invalid.
                           if (_formKey.currentState.validate()) {
                             // Process data.
                           }
                         },
-                        child: Text('Login'),
+                        child: !isLoading
+                            ? Text('Login')
+                            : CircularProgressIndicator(),
                       ),
                     ),
                   ],
