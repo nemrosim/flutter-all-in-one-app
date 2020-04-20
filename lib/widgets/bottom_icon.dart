@@ -21,6 +21,9 @@ class BottomIcon extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(20)),
             onTap: () {},
             child: IconButton(
+              onPressed: () {
+                print('Icon Button Clicked');
+              },
               padding: EdgeInsets.all(0),
               icon: Icon(
                 _icon,
