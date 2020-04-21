@@ -24,8 +24,23 @@ class App extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         home: Home(
-          endDrawer:
-              _devDrawerBuilder != null ? _devDrawerBuilder(context) : null,
+          endDrawer: _devDrawerBuilder != null
+              ? _devDrawerBuilder(context)
+              : AppDrawer(),
+        ),
+      ),
+    );
+  }
+}
+
+class AppDrawer extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: Padding(
+        padding: EdgeInsets.only(top: 24.0),
+        child: Container(
+          child: Text('Hello'),
         ),
       ),
     );
@@ -45,10 +60,12 @@ class Home extends StatelessWidget {
           return Scaffold(
             endDrawer: endDrawer,
             appBar: AppBar(
-              title: Text(token == null ? 'Login form' : 'Main content'),
+//              title: Text(token == null ? 'Login form' : 'Main content'),
+              title: Text('Main content'),
               backgroundColor: Colors.blueGrey,
             ),
-            body: token == null ? AuthRoute() : MainRoute(),
+//            body: token == null ? AuthRoute() : MainRoute(), //  TODO: OLD!
+            body: MainRoute(),
           );
         });
   }

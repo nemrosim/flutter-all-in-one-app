@@ -1,22 +1,23 @@
+import 'package:authapp/widgets/article.dart';
 import 'package:authapp/widgets/bottom_navigation_bar_items.dart';
 import 'package:flutter/material.dart';
 
 class MainRoute extends StatelessWidget {
+  final List<Widget> articles = [
+    Article(),
+    Article(),
+    Article(),
+    Article(),
+    Article(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                child: Text(
-                  'Some content',
-                  style: TextStyle(fontSize: 50),
-                ),
-              ),
-            ],
+          child: ListView(
+            children: articles,
           ),
         ),
       ),
