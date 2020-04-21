@@ -15,8 +15,7 @@ import 'package:sentry/sentry.dart';
 
 import 'package:http/http.dart' as http;
 
-typedef OnLoginResponseCallback = void Function(
-    String task, LoginResponse loginResponse);
+typedef OnLoginResponseCallback = void Function(LoginResponse loginResponse);
 
 final SentryClient sentry =
     new SentryClient(dsn: DotEnv().env['SENTRY_IO_DSN_KEY']);
@@ -48,14 +47,14 @@ class _AuthRouteState extends State<AuthRoute> {
   }
 
   _loginHandler(OnLoginResponseCallback loginResponseCallback) async {
-//    if (AppConfig.showSentryInfo) {
-//      await sentry.capture(
-//        event: Event(
-//            level: SeverityLevel.info,
-//            message: "custom",
-//            extra: {'email': _email}),
-//      );
-//    }
+    if (AppConfig.showSentryInfo) {
+      await sentry.capture(
+        event: Event(
+            level: SeverityLevel.info,
+            message: "custom",
+            extra: {'email': _email}),
+      );
+    }
 
     setState(() {
       isLoading = true;
@@ -70,19 +69,12 @@ class _AuthRouteState extends State<AuthRoute> {
       isLoading = false;
     });
 
-    print('_loginHandler - 1');
-
     if (response.statusCode == 200) {
-      print('_loginHandler - 2');
-
       Map data = jsonDecode(response.body);
-      LoginResponse res = LoginResponse.fromJson(data);
+      LoginResponse loginResponse = LoginResponse.fromJson(data);
+      loginResponseCallback(loginResponse);
 
-      print('Result $res');
-
-      loginResponseCallback('_setLoginResponseData', res);
-
-      return res;
+      return loginResponse;
     } else if (response.statusCode == 401) {
       print('_loginHandler - 3');
 
@@ -106,10 +98,8 @@ class _AuthRouteState extends State<AuthRoute> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, OnLoginResponseCallback>(
       converter: (Store<AppState> store) {
-        var state = store.state;
-        print("2. StoreConnector. State: $state");
-        return (action, data) {
-          store.dispatch(LoginResponseAction());
+        return (data) {
+          store.dispatch(LoginResponseAction(loginResponse: data));
         };
       },
       builder:

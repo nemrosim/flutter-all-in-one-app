@@ -2,14 +2,14 @@ import 'package:authapp/models/api/login_response.dart';
 import 'package:authapp/store/actions/actions.dart';
 import 'package:redux/redux.dart';
 
-final loadingReducer = combineReducers<LoginResponse>([
+final loginReducer = combineReducers<LoginResponse>([
   TypedReducer<LoginResponse, LoginResponseAction>(_setLoginResponseData),
 ]);
 
-LoginResponse _setLoginResponseData(dynamic state, action) {
-  print(' ======== _setLoaded ==========');
-  print(' state $state');
-  print(' action: $action');
-
-  return LoginResponse(token: 'token', refreshToken: 'refresh');
+LoginResponse _setLoginResponseData(
+    LoginResponse state, LoginResponseAction action) {
+  return LoginResponse(
+    token: action.loginResponse.token,
+    refreshToken: action.loginResponse.refreshToken,
+  );
 }

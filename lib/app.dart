@@ -42,7 +42,6 @@ class Home extends StatelessWidget {
     return StoreConnector<AppState, String>(
         converter: (store) => store.state.authState.token,
         builder: (BuildContext context, token) {
-          print('STORE $token');
           return Scaffold(
             endDrawer: endDrawer,
             appBar: AppBar(
