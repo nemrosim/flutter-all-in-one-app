@@ -2,6 +2,13 @@
 
 Auth_Flutter application.
 
+## Run test
+flutter test
+
+OR
+
+flutter run test/widget_test.dart
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.

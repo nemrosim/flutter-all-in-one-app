@@ -31,6 +31,8 @@ dependencies:
   flutter_redux_dev_tools: ^0.4.0
   faker: ^1.2.1
   url_launcher: ^5.4.5
+  source_gen: ^0.9.5
+  built_value: ^7.1.0
 
 dev_dependencies:
   flutter_test:

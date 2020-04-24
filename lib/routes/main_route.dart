@@ -23,8 +23,16 @@ class MainRoute extends StatelessWidget {
     return Scaffold(
       body: Container(
         child: Center(
-          child: ListView(
-            children: articles.map(_buildArticle).toList(),
+          child: RefreshIndicator(
+            onRefresh: () async {
+              await new Future.delayed(
+                const Duration(seconds: 1),
+              );
+              return;
+            },
+            child: ListView(
+              children: articles.map(_buildArticle).toList(),
+            ),
           ),
         ),
       ),
@@ -41,30 +49,52 @@ class MainRoute extends StatelessWidget {
     );
   }
 
-  Widget _buildArticle(Article e) {
-    return Padding(
-      padding: EdgeInsets.all(10),
-      child: Container(
-        color: Colors.white10,
-        child: ListTile(
-          contentPadding: EdgeInsets.all(5),
-          dense: true,
-          onTap: () async {
-            if (await canLaunch(e.url)) {
-              await launch(e.url);
-            } else {
-              throw 'Could not launch ${e.url}';
-            }
-          },
-          leading: e.image,
-          title: Text(
-            e.title,
-            style: TextStyle(fontSize: 20),
+  Widget _buildArticle(Article article) {
+    if (article.id == 0) {
+      return Padding(
+        key: Key('${article.id}'),
+        padding: EdgeInsets.all(10),
+        child: Container(
+          color: Colors.white10,
+          child: ExpansionTile(
+            leading: article.image,
+            title: Text(
+              article.title,
+              style: TextStyle(fontSize: 20),
+            ),
+            children: <Widget>[
+              Text(article.subtitle),
+              Icon(Icons.info),
+            ],
           ),
-          subtitle: Text(e.subtitle),
-          trailing: Icon(Icons.settings),
         ),
-      ),
-    );
+      );
+    } else {
+      return Padding(
+        key: Key('${article.id}'),
+        padding: EdgeInsets.all(10),
+        child: Container(
+          color: Colors.white10,
+          child: ListTile(
+            contentPadding: EdgeInsets.all(5),
+            dense: true,
+            onTap: () async {
+              if (await canLaunch(article.url)) {
+                await launch(article.url);
+              } else {
+                throw 'Could not launch ${article.url}';
+              }
+            },
+            leading: article.image,
+            title: Text(
+              article.title,
+              style: TextStyle(fontSize: 20),
+            ),
+            subtitle: Text(article.subtitle),
+            trailing: Icon(Icons.settings),
+          ),
+        ),
+      );
+    }
   }
 }
