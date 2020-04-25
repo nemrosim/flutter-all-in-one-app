@@ -7,6 +7,9 @@ part of 'item.dart';
 // **************************************************************************
 
 Serializer<Reddit> _$redditSerializer = new _$RedditSerializer();
+Serializer<Children> _$childrenSerializer = new _$ChildrenSerializer();
+Serializer<Data> _$dataSerializer = new _$DataSerializer();
+Serializer<Post> _$postSerializer = new _$PostSerializer();
 
 class _$RedditSerializer implements StructuredSerializer<Reddit> {
   @override
@@ -40,6 +43,147 @@ class _$RedditSerializer implements StructuredSerializer<Reddit> {
         case 'data':
           result.data.replace(serializers.deserialize(value,
               specifiedType: const FullType(Children)) as Children);
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$ChildrenSerializer implements StructuredSerializer<Children> {
+  @override
+  final Iterable<Type> types = const [Children, _$Children];
+  @override
+  final String wireName = 'Children';
+
+  @override
+  Iterable<Object> serialize(Serializers serializers, Children object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object>[
+      'children',
+      serializers.serialize(object.children,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(Data)])),
+    ];
+
+    return result;
+  }
+
+  @override
+  Children deserialize(Serializers serializers, Iterable<Object> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new ChildrenBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final dynamic value = iterator.current;
+      switch (key) {
+        case 'children':
+          result.children.replace(serializers.deserialize(value,
+                  specifiedType:
+                      const FullType(BuiltList, const [const FullType(Data)]))
+              as BuiltList<Object>);
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$DataSerializer implements StructuredSerializer<Data> {
+  @override
+  final Iterable<Type> types = const [Data, _$Data];
+  @override
+  final String wireName = 'Data';
+
+  @override
+  Iterable<Object> serialize(Serializers serializers, Data object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object>[
+      'data',
+      serializers.serialize(object.data, specifiedType: const FullType(Post)),
+    ];
+
+    return result;
+  }
+
+  @override
+  Data deserialize(Serializers serializers, Iterable<Object> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new DataBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final dynamic value = iterator.current;
+      switch (key) {
+        case 'data':
+          result.data.replace(serializers.deserialize(value,
+              specifiedType: const FullType(Post)) as Post);
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$PostSerializer implements StructuredSerializer<Post> {
+  @override
+  final Iterable<Type> types = const [Post, _$Post];
+  @override
+  final String wireName = 'Post';
+
+  @override
+  Iterable<Object> serialize(Serializers serializers, Post object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object>[
+      'author',
+      serializers.serialize(object.author,
+          specifiedType: const FullType(String)),
+      'url',
+      serializers.serialize(object.url, specifiedType: const FullType(String)),
+      'title',
+      serializers.serialize(object.title,
+          specifiedType: const FullType(String)),
+      'ups',
+      serializers.serialize(object.ups, specifiedType: const FullType(int)),
+    ];
+
+    return result;
+  }
+
+  @override
+  Post deserialize(Serializers serializers, Iterable<Object> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new PostBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final dynamic value = iterator.current;
+      switch (key) {
+        case 'author':
+          result.author = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'url':
+          result.url = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'title':
+          result.title = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'ups':
+          result.ups = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
           break;
       }
     }

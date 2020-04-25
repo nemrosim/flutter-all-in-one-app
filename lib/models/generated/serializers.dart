@@ -1,4 +1,4 @@
-import 'package:authapp/models/item.dart';
+import 'package:authapp/models/generated/item.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/serializer.dart';
 import 'package:built_value/standard_json_plugin.dart';

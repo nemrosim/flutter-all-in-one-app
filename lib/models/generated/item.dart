@@ -4,9 +4,6 @@ import 'package:built_collection/built_collection.dart';
 
 part 'item.g.dart';
 
-/**
- *
- */
 abstract class Reddit implements Built<Reddit, RedditBuilder> {
   Children get data;
 
@@ -16,29 +13,22 @@ abstract class Reddit implements Built<Reddit, RedditBuilder> {
   static Serializer<Reddit> get serializer => _$redditSerializer;
 }
 
-/**
- *
- */
 abstract class Children implements Built<Children, ChildrenBuilder> {
   BuiltList<Data> get children;
 
   Children._();
   factory Children([void Function(ChildrenBuilder) updates]) = _$Children;
+  static Serializer<Children> get serializer => _$childrenSerializer;
 }
 
-/**
- *
- */
 abstract class Data implements Built<Data, DataBuilder> {
   Post get data;
 
   Data._();
   factory Data([void Function(DataBuilder) updates]) = _$Data;
+  static Serializer<Data> get serializer => _$dataSerializer;
 }
 
-/**
- *
- */
 abstract class Post implements Built<Post, PostBuilder> {
   String get author;
   String get url;
@@ -47,4 +37,5 @@ abstract class Post implements Built<Post, PostBuilder> {
 
   Post._();
   factory Post([void Function(PostBuilder) updates]) = _$Post;
+  static Serializer<Post> get serializer => _$postSerializer;
 }
