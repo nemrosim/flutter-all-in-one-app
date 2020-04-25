@@ -33,8 +33,12 @@ dependencies:
   url_launcher: ^5.4.5
   source_gen: ^0.9.5
   built_value: ^7.1.0
+  built_collection: ^4.3.2
 
 dev_dependencies:
+  built_value_generator: ^7.1.0
+  build_runner: ^1.9.0
+
   flutter_test:
     sdk: flutter
 

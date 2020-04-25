@@ -2,6 +2,17 @@
 
 Auth_Flutter application.
 
+## Build snippets
+https://github.com/GiancarloCode/built-value-snippets
+
+Build value with serializ:
+`bvts`
+Built Value Serializers
+`bvs`
+
+##Run build Command:
+$ flutter packages pub run build_runner watch
+
 ## Run test
 flutter test
 

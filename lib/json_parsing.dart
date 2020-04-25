@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:built_value/built_value.dart';
+
 List<int> parseTopStories(String jsonString) {
   /**
    * This will return a list of "dynamic"
